@@ -1,0 +1,7 @@
+.DS_Store
+.vscode/
+Pipfile
+Pipfile.lock
+ansible.cfg
+*local*
+scratch/

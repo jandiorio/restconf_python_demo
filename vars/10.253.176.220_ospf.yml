@@ -1,0 +1,12 @@
+Cisco-IOS-XE-ospf:router-ospf:
+  ospf:
+    process-id:
+    - id: 100
+      network:
+      - area: 0
+        ip: 1.1.1.1
+        wildcard: 0.0.0.0
+      - area: 0
+        ip: 172.31.12.0
+        wildcard: 0.0.0.255
+      router-id: 1.1.1.1
