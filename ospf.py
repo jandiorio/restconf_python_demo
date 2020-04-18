@@ -32,7 +32,7 @@ def get_ospf_config(host, session, save_to_file=True):
     return results
 
 
-def create_ospf(host, session, config):
+def create_ospf(host, session):
     """ configure ospf using RESTCONF """
 
     endpoint = "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
@@ -60,13 +60,15 @@ def main():
         print("You must provide a valid path to your inventory...")
         sys.exit(1)
 
-    r1 = inventory.get("r1")
+    for host_key, attribs in inventory.items():
+        print(f"configuring ospf for {host_key}")
+        # for host in inventory.items():
+        # r1 = inventory.get("dev-r1")
+        session = create_session(attribs)
 
-    session = create_session(r1)
-
-    # ospf_config = get_ospf_config(r1,session)
-    results = create_ospf(r1, session, "vars/10.253.176.220_ospf.yml")
-    print(results)
+        # ospf_config = get_ospf_config(r1,session)
+        results = create_ospf(attribs, session)
+        print(results)
 
 
 if __name__=="__main__":
