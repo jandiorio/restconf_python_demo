@@ -55,7 +55,7 @@ def update_interfaces(host, session):
     tmp = env.get_template("interface.j2")
 
     payload = safe_load(tmp.render(interfaces=host['interface']))
-
+    print(payload)
     results = session.patch(_url, json=payload)
 
     return results
@@ -73,20 +73,25 @@ def main():
         print("You must provide a path to your inventory file.")
         sys.exit()
 
-    # create a session imported from restconf_api
-    session = create_session(inventory.get("r1"))
+    for host_key, attribs in inventory.items():
+        print(f"configuring interfaces on {host_key}")
 
-    # get all interfaces
-    results = get_interfaces(inventory.get("r1"), session)
-    interfaces = results["ietf-interfaces:interfaces"]["interface"]
+        # create a session imported from restconf_api
+        session = create_session(attribs)
 
-    # convert to yaml
-    # yaml_output = yaml.safe_dump(results)
-    # with open("vars/interfaces.yml", "w") as file:
-    #     file.write(yaml_output)
+        # get all interfaces
+        results = get_interfaces(attribs, session)
+        interfaces = results["ietf-interfaces:interfaces"]["interface"]
 
-    results = update_interfaces(inventory.get("r1"), session)
-    print(results.text, results.status_code)
+        # convert to yaml
+        # yaml_output = yaml.safe_dump(results)
+        # with open("vars/interfaces.yml", "w") as file:
+        #     file.write(yaml_output)
+
+        results = update_interfaces(attribs, session)
+        print(results.text, results.status_code)
+        
+        # print(get_interfaces(attribs, session))
 
 
 if __name__ == "__main__":
