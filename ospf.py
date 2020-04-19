@@ -6,15 +6,15 @@ Author: Jeff Andiorio
 Topic: Hands-on RESTConf Demo for ENAUTO
 """
 
-
-import sys
-import json
-import urllib3
-from jinja2 import Environment, FileSystemLoader
-from os import path
-from sys import argv
-from yaml import safe_load, safe_dump
-from restconf_api import create_session, build_url, load_inventory
+from yaml import safe_dump
+from restconf_api import (
+    create_session,
+    build_url,
+    load_inventory,
+    render_payload,
+    put_request,
+    save_config,
+)
 
 
 def get_ospf_config(host, session, save_to_file=True):
@@ -32,44 +32,36 @@ def get_ospf_config(host, session, save_to_file=True):
     return results
 
 
-def create_ospf(host, session):
-    """ configure ospf using RESTCONF """
-
-    endpoint = "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
-    _url = build_url(host, endpoint)
-
-    ospf = host['ospf']
-
-    env = Environment(loader=FileSystemLoader("templates"),
-                      lstrip_blocks=True,
-                      trim_blocks=True,
-                      autoescape=True)
-    tmp = env.get_template("ospf.j2")
-    payload = safe_load(tmp.render(ospf=ospf))
-
-    results = session.put(_url, json=payload)
-    # breakpoint()
-
-    return results
-
 def main():
     """ main entry point of program """
-    if len(argv) > 1 and path.exists(argv[1]):
-        inventory = load_inventory(argv[1])
-    else:
-        print("You must provide a valid path to your inventory...")
-        sys.exit(1)
 
-    for host_key, attribs in inventory.items():
-        print(f"configuring ospf for {host_key}")
-        # for host in inventory.items():
-        # r1 = inventory.get("dev-r1")
-        session = create_session(attribs)
+    # "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
+    # "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
 
-        # ospf_config = get_ospf_config(r1,session)
-        results = create_ospf(attribs, session)
-        print(results)
+    # 1. Load inventory
+    inventory = load_inventory("inventory/hosts.yml")
+
+    # 2. Map target rotuer
+    router_1 = inventory["dev-r1"]
+
+    # 3. Create Session
+    session = create_session(router_1["username"], router_1["password"])
+
+    # 4. Variable for ospf data
+    ospf = router_1["ospf"]
+
+    # 5. Render payload
+    payload = render_payload(ospf, "ospf.j2")
+
+    # 6. Make request
+    endpoint = "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
+    result = put_request(router_1["host"], session, endpoint, payload)
+    print(result)
+
+    # 7. Save config
+    saved = save_config(router_1["host"], session)
+    print(saved)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()

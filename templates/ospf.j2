@@ -1,11 +1,11 @@
 Cisco-IOS-XE-ospf:router-ospf:
   ospf:
     process-id:
-    - id: {{ ospf['pid'] }}
+    - id: {{ data['pid'] }}
       network:
-{% for network in ospf['networks'] %}
+{% for network in data['networks'] %}
       - area: {{ network['area'] }}
         ip: {{ network['ip'] }}
         wildcard: {{ network['wildcard'] }}
 {% endfor %}
-      router-id: {{ ospf['router-id'] }}
+      router-id: {{ data['router-id'] }}

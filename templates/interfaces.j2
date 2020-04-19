@@ -1,0 +1,16 @@
+interface:
+{% for interface in data %}
+  - enabled: {{ interface['enabled'] }}
+    name: {{ interface['name'] }}
+    type: {{ interface['type'] }}
+    ietf-ip:ipv4:
+{% if interface['ietf-ip:ipv4']['address'] is defined %}
+      address:
+{% for addr in interface['ietf-ip:ipv4']['address'] %}
+      - ip: {{ addr['ip'] }}
+        netmask: {{ addr['netmask'] }}
+{% endfor %}
+{% else %}
+      {{ {} }}
+{% endif %}
+{% endfor %}

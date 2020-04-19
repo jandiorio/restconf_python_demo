@@ -1,16 +1,15 @@
-interface:
-{% for interface in interfaces %}
-  - enabled: {{ interface['enabled'] }}
-    name: {{ interface['name'] }}
-    type: {{ interface['type'] }}
+ietf-interfaces:interface:
+    name: {{ data['name'] }}
+    type: {{ data['type'] }}
+    enabled: {{ data['enabled'] }}
     ietf-ip:ipv4:
-{% if interface['ietf-ip:ipv4']['address'] is defined %}
+{% if data['ietf-ip:ipv4']['address'] is defined %}
       address:
-{% for addr in interface['ietf-ip:ipv4']['address'] %}
+{% for addr in data['ietf-ip:ipv4']['address'] %}
       - ip: {{ addr['ip'] }}
         netmask: {{ addr['netmask'] }}
 {% endfor %}
 {% else %}
       {{ {} }}
 {% endif %}
-{% endfor %}
+    "ietf-ip:ipv6": {}
