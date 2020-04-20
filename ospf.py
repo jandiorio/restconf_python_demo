@@ -43,7 +43,7 @@ def main():
     inventory = load_inventory("inventory/hosts.yml")
 
     # 2. Map target rotuer
-    router_1 = inventory["dev-r1"]
+    router_1 = inventory["r1"]
 
     # 3. Create Session
     session = create_session(router_1["username"], router_1["password"])
@@ -66,9 +66,22 @@ def main():
     print(saved)
 
     # 8. Get State
+    from pprint import pprint
+    import yaml
     endpoint = "restconf/data/Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state"
     ospf_state = get_request(router_1["host"], session, endpoint)
-    print(ospf_state)
+    # print(ospf_state['Cisco-IOS-XE-ospf-oper:ospf-state'])
+    with open('state_output.yml', 'w') as file:
+        file.write(yaml.safe_dump(ospf_state))
+
+    # 9. Check the Routing Protocol
+    endpoint = "restconf/data/ietf-routing:routing-state"
+    routing_state = get_request(router_1["host"], session, endpoint)
+    # pprint(routing_state)
+    for route in routing_state['ietf-routing:routing-state']['routing-instance'][0]['ribs']['rib'][0]['routes']['route']:
+        print(f"{route['destination-prefix']:40}{route['source-protocol']:40}")
+
+    #     # breakpoint()
 
 if __name__ == "__main__":
     main()
