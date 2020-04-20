@@ -14,6 +14,7 @@ from restconf_api import (
     render_payload,
     put_request,
     save_config,
+    get_request,
 )
 
 
@@ -36,7 +37,7 @@ def main():
     """ main entry point of program """
 
     # "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
-    # "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
+    # "restconf/data/Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state"
 
     # 1. Load inventory
     inventory = load_inventory("inventory/hosts.yml")
@@ -52,6 +53,8 @@ def main():
 
     # 5. Render payload
     payload = render_payload(ospf, "ospf.j2")
+    print("configuring ospf with the following data...")
+    print(payload)
 
     # 6. Make request
     endpoint = "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
@@ -62,6 +65,10 @@ def main():
     saved = save_config(router_1["host"], session)
     print(saved)
 
+    # 8. Get State
+    endpoint = "restconf/data/Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state"
+    ospf_state = get_request(router_1["host"], session, endpoint)
+    print(ospf_state)
 
 if __name__ == "__main__":
     main()
