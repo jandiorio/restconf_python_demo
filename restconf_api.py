@@ -17,7 +17,11 @@ urllib3.disable_warnings()
 
 
 def load_inventory(inventory_path):
-    """ loads inventory from a yml file"""
+    """
+    loads inventory from a YAML file
+
+    :param tempmlate_path: A string path to the templates (used in jinja Environment)
+    """
 
     if path.exists(inventory_path):
         print("loading inventory...")
@@ -31,7 +35,13 @@ def load_inventory(inventory_path):
 
 
 def create_session(username, password):
-    """ create session for requests calls """
+    """
+    create :class:`Session` object for requests calls
+
+    :param username: A string username for authentication
+    :param password: A string password for authentication
+
+    """
 
     # Create headers for our requests
     headers = {
@@ -52,7 +62,13 @@ def create_session(username, password):
 
 
 def build_url(host, endpoint):
-    """ build the restconf url """
+    """
+    build the restconf url
+
+    :param host: A string of the REST API endpoint
+    :param endpoint: A string of either DNS name or IP address of target host
+
+    """
 
     print("Building _url...")
     base_url = f"https://{host}/"
@@ -63,7 +79,14 @@ def build_url(host, endpoint):
 
 
 def get_request(host, session, endpoint):
-    """ generic get function """
+    """
+    generic get function
+
+    :param host: A string of the REST API endpoint
+    :param session: A :class:`Session` object
+    :param endpoint: A string of either DNS name or IP address of target host
+
+    """
 
     _url = build_url(host, endpoint)
 
@@ -73,7 +96,15 @@ def get_request(host, session, endpoint):
 
 
 def post_request(host, session, endpoint, payload):
-    """ basic post request """
+    """
+    basic post request
+
+    :param host: A string of the REST API endpoint
+    :param session: A :class:`Session` object
+    :param endpoint: A string of either DNS name or IP address of target host
+    :param payload: A dictionary for the request body
+
+    """
 
     _url = build_url(host, endpoint)
 
@@ -84,7 +115,14 @@ def post_request(host, session, endpoint, payload):
 
 
 def put_request(host, session, endpoint, payload):
-    """ generic put function """
+    """
+    generic put function
+
+    :param host: A string of the REST API endpoint
+    :param session: A :class:`Session` object
+    :param endpoint: A string of either DNS name or IP address of target host
+    :param payload: A dictionary for the request body
+    """
 
     _url = build_url(host, endpoint)
 
@@ -95,7 +133,14 @@ def put_request(host, session, endpoint, payload):
 
 
 def delete_request(host, session, endpoint):
-    """ generic delete function """
+    """
+    generic delete function
+
+    :param host: A string of the REST API endpoint
+    :param session: A :class:`Session` object
+    :param endpoint: A string of either DNS name or IP address of target host
+
+    """
 
     _url = build_url(host, endpoint)
 
@@ -104,13 +149,14 @@ def delete_request(host, session, endpoint):
 
     return results
 
+
 def render_payload(data, template_name, template_path="templates/"):
     """
     render payload from a template
-    Params:
-      data (dict) - dictionary of values to populate the template
-      template_name (str) - name of the template
-      tempmlate_path (str) - path to the templates (used in jinja Environment)
+
+    :param data: (dict) - A dictionary of values to populate the template
+    :param template_name: A string name of the template
+    :param tempmlate_path: A string path to the templates (used in jinja Environment)
     """
 
     print("Rendering payload...")
@@ -130,7 +176,12 @@ def render_payload(data, template_name, template_path="templates/"):
 
 
 def save_config(host, session):
-    """ convenience method for saving config """
+    """
+    convenience method for saving config
+
+    :param host: A string of the REST API endpoint
+    :param session: A :class:`Session` object
+    """
 
     payload = {}
     endpoint = "restconf/operations/cisco-ia:save-config/"

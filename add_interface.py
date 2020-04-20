@@ -33,7 +33,9 @@ def main():
 
     # 4. create variable for loopback0 data
     loop0 = [
-        interface for interface in router_1["interface"] if interface["name"] == "Loopback0"
+        interface
+        for interface in router_1["interface"]
+        if interface["name"] == "Loopback0"
     ][0]
 
     # 5.  Render the template
@@ -53,6 +55,7 @@ def main():
         print("Successfully saved configuration...")
     else:
         print("Failed to save configuration...")
+
 
 if __name__ == "__main__":
     main()
