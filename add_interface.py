@@ -13,6 +13,7 @@ from restconf_api import (
     render_payload,
     put_request,
     save_config,
+    get_request,
 )
 
 
@@ -56,6 +57,12 @@ def main():
     else:
         print("Failed to save configuration...")
 
-
+    # 9. Get Interface
+    endpoint = "restconf/data/ietf-interfaces:interfaces/interface=Loopback0"
+    interface_results = get_request(router_1["host"], session, endpoint)
+    # Save to file for reference
+    with open("loopback0.yml", "w") as file:
+        import yaml
+        file.write(yaml.safe_dump(interface_results))
 if __name__ == "__main__":
     main()

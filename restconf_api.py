@@ -92,7 +92,10 @@ def get_request(host, session, endpoint):
 
     results = session.get(_url)
 
-    return results.json()
+    if results.ok:
+        return results.json()
+    else:
+        print(f'GET request failed...{results.text}')
 
 
 def post_request(host, session, endpoint, payload):
@@ -108,7 +111,7 @@ def post_request(host, session, endpoint, payload):
 
     _url = build_url(host, endpoint)
 
-    print("Making POST request...")
+    print(f"Making POST request to {endpoint}...")
     results = session.post(_url, json=payload)
 
     return results
@@ -126,7 +129,7 @@ def put_request(host, session, endpoint, payload):
 
     _url = build_url(host, endpoint)
 
-    print("Making request...")
+    print(f"Making PUT request to {endpoint}...")
     results = session.put(_url, json=payload)
 
     return results
@@ -144,7 +147,7 @@ def delete_request(host, session, endpoint):
 
     _url = build_url(host, endpoint)
 
-    print("Making request...")
+    print(f"Making DELETE request to {endpoint}...")
     results = session.delete(_url)
 
     return results
@@ -177,7 +180,7 @@ def render_payload(data, template_name, template_path="templates/"):
 
 def save_config(host, session):
     """
-    convenience method for saving config
+    convenience method for saving config on ios-xe devices
 
     :param host: A string of the REST API endpoint
     :param session: A :class:`Session` object
