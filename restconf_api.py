@@ -49,12 +49,12 @@ def create_session(username, password):
         "Content-Type": "application/yang-data+json",
     }
 
-    auth = (username, password)
+    # auth = (username, password)
 
     print("Creating Session Object...")
 
     session = requests.session()
-    session.auth = auth
+    session.auth = (username, password)
     session.verify = False
     session.headers = headers
 
