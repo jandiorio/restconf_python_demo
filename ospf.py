@@ -6,6 +6,7 @@ Author: Jeff Andiorio
 Topic: Hands-on RESTConf Demo for ENAUTO
 """
 
+import time
 import yaml
 from yaml import safe_dump
 from restconf_api import (
@@ -62,6 +63,13 @@ def main():
         endpoint = "restconf/data/Cisco-IOS-XE-native:native/router/router-ospf"
         result = put_request(router["host"], session, endpoint, payload)
         print(result)
+
+    # sleep waiting for DR election and neighbor
+    print("Waiting for neighbors...")
+    time.sleep(60)
+
+    # Loop through obtaining state
+    for device in inventory.keys():
 
         # 7. Get State
         endpoint = "restconf/data/Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state"
