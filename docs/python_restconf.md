@@ -9,6 +9,23 @@ This lab uses several different yang models including:
 - `Cisco-IOS-XE-ospf.yang` for configuration of the OSPF process
 - `Cisco-IOS-XE-ospf-oper.yang` for validation of the OSPF configuration
 
+## What Will You Learn
+
+This walk through will provide you exposure to several critically import technologies and techniques used in model driven programmability.
+
+![image-20200427144924388](_images/what_will_you_learn.png)
+
+You will be exposed to the following:
+
+* Python `requests` library
+* Concepts of Organizing your Code into functions for reuse
+* RESTful APIs (in the context of RESTConf)
+* Python pyyaml library for working with YAML encoded variable files
+* Opening, reading, and writing to files.
+* Jinja2 templates
+* RESTful API interaction
+* YANG models (standard and native)
+
 ## Prep Steps
 
 While you can use any environment to run this demo, the path of least resistance is to use the [Programmability Foundations Lab](https://www.wwt.com/lab/programmability-foundations-lab).  This lab will have all of the necessary Python libraries, development tools and the network that matches the inventory file.

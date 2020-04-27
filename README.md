@@ -4,6 +4,8 @@ This repository was created and intended to be used in the ENAUTO Study group pr
 
 The demo scripts and supporting data are intended to be used on the Programmability Foundations Lab environment.  This doesn't preclude you from modifying the attributes to work in some other environment.
 
+![image-20200427144733614](docs/_images/image-20200427144733614.png)
+
 ## Steps
 
 The walk-through steps can be found in docs [here](docs/python_restconf.md)
