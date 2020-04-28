@@ -56,7 +56,7 @@ Follow these steps to utilize the [Programmability Foundations Lab](https://www.
    git clone https://github.wwt.com/andiorij/mdp_hands_on_demo.git
    ```
 
-   **NOTE** The repository is also available [restconf_python_demo](https://github.wwt.com/andiorij/mdp_hands_on_demo.git) on github.com.
+   **NOTE** The repository is also available [restconf_python_demo](https://github.com/jandiorio/restconf_python_demo.git) on github.com.
 
 
 6. `cd' into the cloned repository
